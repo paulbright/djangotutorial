@@ -1,0 +1,20 @@
+pg_ctl -D /Users/admin/homebrew/var/postgres start
+
+psql postgres
+CREATE USER paulbloguser WITH PASSWORD '12345678';
+CREATE DATABASE paulblog_db;
+GRANT ALL PRIVILEGES ON DATABASE "paulblog_db" TO paulbloguser;
+ALTER ROLE paulbloguser SET client_encoding TO 'utf8';
+ALTER ROLE paulbloguser SET default_transaction_isolation TO 'read committed';
+ALTER ROLE paulbloguser SET timezone TO 'UTC';
+
+
+python manage.py migrate
+python manage.py runserver 127.0.0.1:8002
+sudo python3 manage.py runserver 0.0.0.0:8002
+
+PYTHONPATH="/usr/local/lib/python3.6/dist-packages":"${PYTHONPATH}"
+
+sudo mkfs -t xfs -f /dev/xvdb
+sudo mount /dev/xvdb /home/ubuntu/css
+sudo lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT,LABEL
